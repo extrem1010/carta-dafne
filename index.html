@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Una entrega extraordinaria para Dafne</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0214;
+            font-family: 'Georgia', serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding: 20px;
+            background-image: radial-gradient(circle at center, #18052c 0%, #05010a 100%);
+        }
+        .container {
+            position: relative;
+            width: 100%;
+            max-width: 450px;
+            perspective: 1500px;
+        }
+        
+        /* --- ESTILO DEL SOBRE INTERACTIVO --- */
+        .envelope-wrapper {
+            position: relative;
+            width: 100%;
+            height: 320px;
+            background: #1c1124;
+            border-radius: 0 0 12px 12px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.7);
+            cursor: pointer;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+            z-index: 10;
+            border: 1px solid #2d1b3a;
+        }
+        .envelope-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0; right: 0; bottom: 0; left: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+            border-radius: 0 0 12px 12px;
+            z-index: 2;
+        }
+        /* Capas internas del sobre para dar efecto de profundidad */
+        .envelope-front {
+            position: absolute;
+            width: 0; height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-bottom: 160px solid #23162d;
+            bottom: 0; left: 0; z-index: 3;
+        }
+        @media(max-width: 450px) {
+            .envelope-front {
+                border-left: calc(50vw - 20px) solid transparent;
+                border-right: calc(50vw - 20px) solid transparent;
+            }
+        }
+        .envelope-top {
+            position: absolute;
+            top: 0; left: 0;
+            width: 0; height: 0;
+            border-left: 225px solid transparent;
+            border-right: 225px solid transparent;
+            border-top: 165px solid #160e1d;
+            transform-origin: top;
+            transition: transform 0.6s ease-in-out;
+            z-index: 4;
+        }
+        @media(max-width: 450px) {
+            .envelope-top {
+                border-left: calc(50vw - 20px) solid transparent;
+                border-right: calc(50vw - 20px) solid transparent;
+            }
+        }
+        
+        /* Sello de Lacre Calabaza */
+        .wax-seal {
+            position: absolute;
+            top: 140px;
+            left: calc(50% - 35px);
+            width: 70px;
+            height: 70px;
+            background: radial-gradient(circle at 30% 30%, #e65c00, #993d00);
+            border-radius: 50%;
+            z-index: 5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.5), inset 0 -4px 6px rgba(0,0,0,0.4), inset 0 4px 6px rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+            animation: pulseSeal 2s infinite alternate;
+        }
+        .wax-seal svg {
+            width: 42px;
+            height: 42px;
+            fill: #331400;
+            filter: drop-shadow(1px 1px 1px rgba(255,255,255,0.1));
+        }
+        .envelope-wrapper:hover .wax-seal {
+            transform: scale(1.08);
+        }
+        @keyframes pulseSeal {
+            0% { box-shadow: 0 4px 10px rgba(0,0,0,0.5), 0 0 0px rgba(230, 92, 0, 0); }
+            100% { box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 15px rgba(230, 92, 0, 0.4); }
+        }
+        
+        /* Texto flotante sobre el sobre */
+        .envelope-hint {
+            position: absolute;
+            bottom: -40px;
+            width: 100%;
+            text-align: center;
+            color: #d1b3ff;
+            font-size: 0.95rem;
+            letter-spacing: 1px;
+            font-style: italic;
+        }
+
+        /* --- ACCIÓN DE APERTURA --- */
+        .container.open .envelope-top {
+            transform: rotateX(180deg);
+            z-index: 1;
+        }
+        .container.open .envelope-wrapper {
+            transform: translateY(250px) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- ESTILO DE LA CARTA INTERNA --- */
+        .card {
+            position: relative;
+            width: 100%;
+            background: #f4ebd0;
+            border-radius: 8px;
+            padding: 35px 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            opacity: 0;
+            transform: translateY(100px) scale(0.9);
+            transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1;
+            pointer-events: none;
+            border: 2px solid #dfcfa5;
+        }
+        .container.open .card {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+            z-index: 12;
+        }
+        
+        /* Elementos Gráficos de la Carta */
+        .header-logo {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .header-logo svg {
+            width: 130px;
+            height: auto;
+        }
+        
+        .section-num {
+            font-size: 0.75rem;
+            color: #8c764d;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            border-bottom: 1px solid #dfcfa5;
+            padding-bottom: 4px;
+            margin-bottom: 15px;
+        }
+        
+        h2 {
+            font-family: 'Cinzel', serif;
+            color: #1c1124;
+            font-size: 1.35rem;
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+        
+        p {
+            color: #3a3224;
+            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 20px;
+        }
+        
+        /* --- BLOQUES DE PERSONAJES INTEGRADOS --- */
+        .character-row {
+            display: flex;
+            align-items: center;
+            background: rgba(28, 17, 36, 0.04);
+            border-left: 3px solid #1c1124;
+            padding: 12px;
+            border-radius: 0 8px 8px 0;
+            margin-top: 15px;
+            margin-bottom: 20px;
+        }
+        .character-avatar {
+            width: 55px;
+            height: 55px;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        .character-avatar svg {
+            width: 100%;
+            height: 100%;
+        }
+        .character-talk {
+            flex-grow: 1;
+        }
+        .character-name {
+            font-weight: bold;
+            font-size: 0.85rem;
+            color: #1c1124;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+        .character-quote {
+            font-style: italic;
+            font-size: 0.95rem;
+            color: #4a3e56;
+            line-height: 1.4;
+        }
+        
+        /* Variación específica para el bloque caótico de Beetlejuice */
+        .beetlejuice-block {
+            border-left-color: #29a329;
+            background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02) 10px, rgba(255,255,255,0.4) 10px, rgba(255,255,255,0.4) 20px);
+            border: 1px solid rgba(41, 163, 41, 0.2);
+            border-left: 4px solid #29a329;
+        }
+        .beetlejuice-block .character-name {
+            color: #1f7a1f;
+        }
+
+        /* --- BOTÓN INTERACTIVO FINAL --- */
+        .btn-surprise {
+            display: block;
+            width: 100%;
+            background: linear-gradient(135deg, #6600cc 0%, #440099 100%);
+            color: #ffffff;
+            text-align: center;
+            padding: 15px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.05rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            box-shadow: 0 6px 15px rgba(102,0,204,0.3);
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-surprise:hover {
+            background: linear-gradient(135deg, #7711dd 0%, #5500aa 100%);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102,0,204,0.5);
+        }
+        .btn-surprise:active {
+            transform: translateY(-1px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container" id="interactive-container">
+        
+        <!-- SOBRE CERRADO CON SELLO DE LACRE -->
+        <div class="envelope-wrapper" onclick="openEnvelope()">
+            <div class="envelope-top"></div>
+            <div class="wax-seal">
+                <!-- SVG Vectorial: Sello Calabaza Halloween Tallada -->
+                <svg viewBox="0 0 24 24">
+                    <path d="M12,2C11.5,2 11,3 11,4C8.5,4.3 6.5,5.5 5.3,7.2C4.5,8.4 4,10.1 4,12C4,16.4 7.6,20 12,20C16.4,20 20,16.4 20,12C20,10.1 19.5,8.4 18.7,7.2C17.5,5.5 15.5,4.3 11,4C11,3 10.5,2 12,2Z" fill="#ff751a"/>
+                    <path d="M7.5,10.5L9,12.5L6,12.5Z" fill="#230d00"/>
+                    <path d="M16.5,10.5L18,12.5L15,12.5Z" fill="#230d00"/>
+                    <path d="M12,12L13,13.5L11,13.5Z" fill="#230d00"/>
+                    <path d="M7,15C8,17 16,17 17,15C15.5,16 8.5,16 7,15Z" fill="#230d00"/>
+                </svg>
+            </div>
+            <div class="envelope-front"></div>
+            <div class="envelope-hint">✨ Dafne, toca el sello para abrir...</div>
+        </div>
+
+        <!-- CARTA INTERACTIVA QUE EMERGE -->
+        <div class="card">
+            
