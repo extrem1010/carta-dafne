@@ -267,8 +267,8 @@
 
     <div class="container" id="interactive-container">
         
-        <!-- SOBRE CERRADO -->
-        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()" ontouchstart="openEnvelope()">
+        <!-- SOBRE CERRADO (MÉTODO ULTRA SIMPLE DE CONTROL DE CLIC) -->
+        <div class="envelope-wrapper" id="envelope" onclick="document.getElementById('interactive-container').classList.add('open')">
             <div class="envelope-top"></div>
             <div class="wax-seal">
                 <svg viewBox="0 0 24 24">
@@ -290,5 +290,3 @@
                     <circle cx="100" cy="35" r="30" fill="#fcebb6" opacity="0.8"/>
                     <path d="M80,25 Q95,20 110,32 Q120,45 135,40" stroke="#1c1124" stroke-width="3" fill="none"/>
                     <path d="M65,22 Q70,18 75,20 Q73,23 65,22" fill="#1c1124"/>
-                    <path d="M125,18 Q132,15 138,20 Q133,24 125,18" fill="#1c1124"/>
-
