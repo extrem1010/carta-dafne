@@ -40,6 +40,7 @@
             transition: transform 0.5s ease, opacity 0.5s ease;
             z-index: 10;
             border: 1px solid #2d1b3a;
+            -webkit-tap-highlight-color: transparent;
         }
         .envelope-wrapper::before {
             content: '';
@@ -267,7 +268,7 @@
     <div class="container" id="interactive-container">
         
         <!-- SOBRE CERRADO -->
-        <div class="envelope-wrapper" onclick="openEnvelope()">
+        <div class="envelope-wrapper" id="envelope" onclick="openEnvelope()" ontouchstart="openEnvelope()">
             <div class="envelope-top"></div>
             <div class="wax-seal">
                 <svg viewBox="0 0 24 24">
