@@ -49,7 +49,6 @@
             border-radius: 0 0 12px 12px;
             z-index: 2;
         }
-        /* Capas internas del sobre para dar efecto de profundidad */
         .envelope-front {
             position: absolute;
             width: 0; height: 0;
@@ -82,7 +81,6 @@
             }
         }
         
-        /* Sello de Lacre Calabaza */
         .wax-seal {
             position: absolute;
             top: 140px;
@@ -113,7 +111,6 @@
             100% { box-shadow: 0 4px 12px rgba(0,0,0,0.6), 0 0 15px rgba(230, 92, 0, 0.4); }
         }
         
-        /* Texto flotante sobre el sobre */
         .envelope-hint {
             position: absolute;
             bottom: -40px;
@@ -125,7 +122,6 @@
             font-style: italic;
         }
 
-        /* --- ACCIÓN DE APERTURA --- */
         .container.open .envelope-top {
             transform: rotateX(180deg);
             z-index: 1;
@@ -158,7 +154,6 @@
             z-index: 12;
         }
         
-        /* Elementos Gráficos de la Carta */
         .header-logo {
             text-align: center;
             margin-bottom: 25px;
@@ -193,7 +188,6 @@
             margin-bottom: 20px;
         }
         
-        /* --- BLOQUES DE PERSONAJES INTEGRADOS --- */
         .character-row {
             display: flex;
             align-items: center;
@@ -232,7 +226,6 @@
             line-height: 1.4;
         }
         
-        /* Variación específica para el bloque caótico de Beetlejuice */
         .beetlejuice-block {
             border-left-color: #29a329;
             background: repeating-linear-gradient(45deg, rgba(0,0,0,0.02), rgba(0,0,0,0.02) 10px, rgba(255,255,255,0.4) 10px, rgba(255,255,255,0.4) 20px);
@@ -243,7 +236,6 @@
             color: #1f7a1f;
         }
 
-        /* --- BOTÓN INTERACTIVO FINAL --- */
         .btn-surprise {
             display: block;
             width: 100%;
@@ -268,20 +260,16 @@
             transform: translateY(-3px);
             box-shadow: 0 8px 20px rgba(102,0,204,0.5);
         }
-        .btn-surprise:active {
-            transform: translateY(-1px);
-        }
     </style>
 </head>
 <body>
 
     <div class="container" id="interactive-container">
         
-        <!-- SOBRE CERRADO CON SELLO DE LACRE -->
+        <!-- SOBRE CERRADO -->
         <div class="envelope-wrapper" onclick="openEnvelope()">
             <div class="envelope-top"></div>
             <div class="wax-seal">
-                <!-- SVG Vectorial: Sello Calabaza Halloween Tallada -->
                 <svg viewBox="0 0 24 24">
                     <path d="M12,2C11.5,2 11,3 11,4C8.5,4.3 6.5,5.5 5.3,7.2C4.5,8.4 4,10.1 4,12C4,16.4 7.6,20 12,20C16.4,20 20,16.4 20,12C20,10.1 19.5,8.4 18.7,7.2C17.5,5.5 15.5,4.3 11,4C11,3 10.5,2 12,2Z" fill="#ff751a"/>
                     <path d="M7.5,10.5L9,12.5L6,12.5Z" fill="#230d00"/>
@@ -294,6 +282,12 @@
             <div class="envelope-hint">✨ Dafne, toca el sello para abrir...</div>
         </div>
 
-        <!-- CARTA INTERACTIVA QUE EMERGE -->
+        <!-- CARTA INTERACTIVA -->
         <div class="card">
-            
+            <div class="header-logo">
+                <svg viewBox="0 0 200 70" xmlns="http://w3.org">
+                    <circle cx="100" cy="35" r="30" fill="#fcebb6" opacity="0.8"/>
+                    <path d="M80,25 Q95,20 110,32 Q120,45 135,40" stroke="#1c1124" stroke-width="3" fill="none"/>
+                    <path d="M65,22 Q70,18 75,20 Q73,23 65,22" fill="#1c1124"/>
+                    <path d="M125,18 Q132,15 138,20 Q133,24 125,18" fill="#1c1124"/>
+
